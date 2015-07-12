@@ -1,4 +1,4 @@
-<img src="/images/icon.png" alt="đ" width="64" height="64"> doughwallet
+<img src="/images/icon.png" alt="đ" width="64" height="64"> beerwallet
 ----------------------------------
 
 [![download](/images/Download_on_the_App_Store_Badge_US-UK_135x40.png)]
@@ -16,6 +16,7 @@ the simplest and most secure dogecoin wallet on any platform
 - private keys never leave your device 
 - "simplified payment verification" for fast mobile performance 
 - import password protected paper wallets 
+- "Single Address Mode" toggle that provides Coindroids single-address compatibility
 - "payment protocol" payee identity certification
 - open source
 
