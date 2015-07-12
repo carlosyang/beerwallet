@@ -278,12 +278,28 @@ static NSData *txOutput(NSData *txHash, uint32_t n)
 
 - (NSString *)receiveAddress
 {
-    return [self addressesWithGapLimit:1 internal:NO].lastObject;
+    NSString * result;
+    
+    // DEFCOIN: Override the returned address when SingleAddressMode is enabled!
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SingleAddressMode"]) {
+        result = self.externalAddresses.firstObject;
+    } else {
+        result = [self addressesWithGapLimit:1 internal:NO].lastObject;
+    }
+    return result;
 }
 
 - (NSString *)changeAddress
 {
-    return [self addressesWithGapLimit:1 internal:YES].lastObject;
+    NSString * result;
+    
+    // DEFCOIN: Override the returned address when SingleAddressMode is enabled!
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SingleAddressMode"]) {
+        result = self.externalAddresses.firstObject;
+    } else {
+        result = [self addressesWithGapLimit:1 internal:YES].lastObject;
+    }
+    return result;
 }
 
 - (NSSet *)addresses

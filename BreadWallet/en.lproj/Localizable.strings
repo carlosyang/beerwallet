@@ -101,6 +101,9 @@
 "choose a pin" = "choose a pin";
 
 /* No comment provided by engineer. */
+"single address mode" = "single address mode";
+
+/* No comment provided by engineer. */
 "clipboard doesn't contain a valid bitcoin address" = "clipboard doesn't contain a valid bitcoin address";
 
 /* No comment provided by engineer. */
