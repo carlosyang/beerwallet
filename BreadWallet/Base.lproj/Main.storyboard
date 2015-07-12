@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="BeO-Yt-c4D">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="BeO-Yt-c4D">
     <dependencies>
         <deployment identifier="iOS"/>
         <development version="5100" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -1579,9 +1579,10 @@
                                         <gestureRecognizers/>
                                         <attributedString key="attributedText">
                                             <fragment>
-                                                <string key="content">doughwallet v%ver%%net%
-copyright © 2014 Filip Noetzel
-copyright © 2014 Aaron Voisine
+                                                <string key="content">beerwallet v%ver%%net%
+copyright ©2015 Michael Perklin
+copyright ©2014 Filip Noetzel
+copyright ©2014 Aaron Voisine
 
 based on breadwallet
 this app is open source
@@ -1591,19 +1592,10 @@ this app is open source
                                                     <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                                                 </attributes>
                                             </fragment>
-                                            <fragment>
-                                                <string key="content">doughwallet.net
-
-</string>
+                                            <fragment content="beerwallet.org">
                                                 <attributes>
                                                     <color key="NSColor" red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <font key="NSFont" size="17" name="HelveticaNeue-Light"/>
-                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
-                                                </attributes>
-                                            </fragment>
-                                            <fragment content="exchange rate data provided by www.doughwallet.net/ticker">
-                                                <attributes>
-                                                    <font key="NSFont" size="15" name="HelveticaNeue-Light"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
                                                 </attributes>
                                             </fragment>
@@ -2869,7 +2861,7 @@ Cgo
                             <imageView userInteractionEnabled="NO" contentMode="center" fixedFrame="YES" image="wallpaper-default" translatesAutoresizingMaskIntoConstraints="NO" id="dqh-Fj-S7p">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="EQG-Km-ZKY">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="EQG-Km-ZKY">
                                 <rect key="frame" x="29" y="149" width="263" height="75"/>
                                 <attributedString key="attributedText">
                                     <fragment content="this is your wallet backup phrase">
@@ -3028,9 +3020,9 @@ it and you may lose your dogecoins forever.</string>
         </scene>
     </scenes>
     <resources>
-        <image name="breadwallet" width="93" height="15"/>
+        <image name="breadwallet" width="85" height="15"/>
         <image name="breadwallet-big" width="257" height="151"/>
-        <image name="breadwallet-white" width="97" height="18"/>
+        <image name="breadwallet-white" width="93" height="18"/>
         <image name="burger" width="20" height="16"/>
         <image name="button-bg-blue" width="10" height="11"/>
         <image name="button-bg-blue-pressed" width="10" height="44"/>

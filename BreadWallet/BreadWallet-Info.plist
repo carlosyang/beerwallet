@@ -5,44 +5,44 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>đough</string>
+	<string>Beerwallet</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
-			<string>Dogecoin Payment Request</string>
+			<string>Defcoin Payment Request</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>doge.payment.request</string>
+				<string>defc.payment.request</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
-			<string>Dogecoin Payment</string>
+			<string>Defcoin Payment</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>doge.payment.payment</string>
+				<string>defc.payment.payment</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeIconFiles</key>
 			<array/>
 			<key>CFBundleTypeName</key>
-			<string>Dogecoin Payment ACK</string>
+			<string>Defcoin Payment ACK</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>doge.payment.ack</string>
+				<string>defc.payment.ack</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.codefrosting.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>com.perklin.$(PRODUCT_NAME:rfc1034identifier)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -59,20 +59,20 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>dogecoin</string>
+			<string>defcoin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>dogecoin</string>
+				<string>defcoin</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.codefrosting.dough</string>
+			<string>com.perklin.beer</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>dough</string>
+				<string>beer</string>
 			</array>
 		</dict>
 	</array>
@@ -84,6 +84,8 @@
 	<array>
 		<string>fetch</string>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>Main</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -108,13 +110,13 @@
 				<string>public.data</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Dogecoin Payment Request</string>
+			<string>Defcoin Payment Request</string>
 			<key>UTTypeIdentifier</key>
-			<string>doge.payment.request</string>
+			<string>defc.payment.request</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.mime-type</key>
-				<string>application/vnd.doge.payment.request</string>
+				<string>application/vnd.defc.payment.request</string>
 			</dict>
 		</dict>
 		<dict>
@@ -123,13 +125,13 @@
 				<string>public.data</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Dogecoin Payment</string>
+			<string>Defcoin Payment</string>
 			<key>UTTypeIdentifier</key>
-			<string>doge.payment.payment</string>
+			<string>defc.payment.payment</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.mime-type</key>
-				<string>application/vnd.doge.payment.payment</string>
+				<string>application/vnd.defc.payment.payment</string>
 			</dict>
 		</dict>
 		<dict>
@@ -138,13 +140,13 @@
 				<string>public.data</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Dogecoin Payment ACK</string>
+			<string>Defcoin Payment ACK</string>
 			<key>UTTypeIdentifier</key>
-			<string>doge.payment.ack</string>
+			<string>defc.payment.ack</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.mime-type</key>
-				<string>application/vnd.doge.payment.ack</string>
+				<string>application/vnd.defc.payment.ack</string>
 			</dict>
 		</dict>
 	</array>

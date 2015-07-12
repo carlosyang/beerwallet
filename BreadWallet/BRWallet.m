@@ -37,7 +37,7 @@
 static NSData *txOutput(NSData *txHash, uint32_t n)
 {
     NSMutableData *d = [NSMutableData dataWithCapacity:CC_SHA256_DIGEST_LENGTH + sizeof(uint32_t)];
-
+    
     [d appendData:txHash];
     [d appendUInt32:n];
     return d;
@@ -62,10 +62,10 @@ static NSData *txOutput(NSData *txHash, uint32_t n)
 @implementation BRWallet
 
 - (instancetype)initWithContext:(NSManagedObjectContext *)context sequence:(id<BRKeySequence>)sequence
-seed:(NSData *(^)())seed
+                           seed:(NSData *(^)())seed
 {
     if (! (self = [super init])) return nil;
-
+    
     self.moc = context;
     self.sequence = sequence;
     self.seed = seed;
@@ -78,32 +78,32 @@ seed:(NSData *(^)())seed
     self.invalidTx = [NSMutableSet set];
     self.spentOutputs = [NSMutableSet set];
     self.utxos = [NSMutableOrderedSet orderedSet];
-
+    
     [self.moc performBlockAndWait:^{
         [BRAddressEntity setContext:self.moc];
         [BRTransactionEntity setContext:self.moc];
-
+        
         for (BRAddressEntity *e in [BRAddressEntity allObjects]) {
             NSMutableArray *a = e.internal ? self.internalAddresses : self.externalAddresses;
-
+            
             while (e.index >= a.count) [a addObject:[NSNull null]];
             [a replaceObjectAtIndex:e.index withObject:e.address];
             [self.allAddresses addObject:e.address];
         }
-
+        
         for (BRTransactionEntity *e in [BRTransactionEntity allObjects]) {
             BRTransaction *tx = e.transaction;
-
+            
             self.allTx[tx.txHash] = tx;
             [self.transactions addObject:tx];
             [self.usedAddresses addObjectsFromArray:tx.inputAddresses];
             [self.usedAddresses addObjectsFromArray:tx.outputAddresses];
         }
     }];
-
+    
     [self sortTransactions];
     [self updateBalance];
-
+    
     return self;
 }
 
@@ -126,57 +126,57 @@ seed:(NSData *(^)())seed
 {
     NSMutableArray *a = [NSMutableArray arrayWithArray:internal ? self.internalAddresses : self.externalAddresses];
     NSUInteger i = a.count;
-
+    
     // keep only the trailing contiguous block of addresses with no transactions
     while (i > 0 && ! [self.usedAddresses containsObject:a[i - 1]]) {
         i--;
     }
-
+    
     if (i > 0) [a removeObjectsInRange:NSMakeRange(0, i)];
     if (a.count >= gapLimit) return [a subarrayWithRange:NSMakeRange(0, gapLimit)];
-
+    
     if (gapLimit > 1) { // get receiveAddress and changeAddress first to avoid blocking
         [self receiveAddress];
         [self changeAddress];
     }
-
+    
     @synchronized(self) {
         [a setArray:internal ? self.internalAddresses : self.externalAddresses];
         i = a.count;
-
+        
         unsigned n = (unsigned)i;
-
+        
         // keep only the trailing contiguous block of addresses with no transactions
         while (i > 0 && ! [self.usedAddresses containsObject:a[i - 1]]) {
             i--;
         }
-
+        
         if (i > 0) [a removeObjectsInRange:NSMakeRange(0, i)];
         if (a.count >= gapLimit) return [a subarrayWithRange:NSMakeRange(0, gapLimit)];
-
+        
         while (a.count < gapLimit) { // generate new addresses up to gapLimit
             NSData *pubKey = [self.sequence publicKey:n internal:internal masterPublicKey:self.masterPublicKey];
             NSString *addr = [[BRKey keyWithPublicKey:pubKey] address];
-        
+            
             if (! addr) {
                 NSLog(@"error generating keys");
                 return nil;
             }
-
+            
             [self.moc performBlock:^{ // store new address in core data
                 BRAddressEntity *e = [BRAddressEntity managedObject];
-
+                
                 e.address = addr;
                 e.index = n;
                 e.internal = internal;
             }];
-
+            
             [self.allAddresses addObject:addr];
             [internal ? self.internalAddresses : self.externalAddresses addObject:addr];
             [a addObject:addr];
             n++;
         }
-    
+        
         return a;
     }
 }
@@ -187,23 +187,23 @@ seed:(NSData *(^)())seed
 {
     NSComparator compareTx;
     __block __weak NSComparator weakCompareTx = compareTx =
-        ^NSComparisonResult(BRTransaction *tx1, BRTransaction *tx2) {
-            if (! tx1 || ! tx2) return NSOrderedSame;
-            if (tx1.blockHeight > tx2.blockHeight) return NSOrderedAscending;
-            if (tx1.blockHeight < tx2.blockHeight) return NSOrderedDescending;
-            if ([tx1.inputHashes containsObject:tx2.txHash]) return NSOrderedAscending;
-            if ([tx2.inputHashes containsObject:tx1.txHash]) return NSOrderedDescending;
-            
-            for (NSData *txHash in tx1.inputHashes) { // recursively compare inputs
-                if (weakCompareTx(self.allTx[txHash], tx2) == NSOrderedAscending) return NSOrderedAscending;
-            }
-            
-            for (NSData *txHash in tx2.inputHashes) {
-                if (weakCompareTx(tx1, self.allTx[txHash]) == NSOrderedDescending) return NSOrderedDescending;
-            }
-            
-            return NSOrderedSame;
-        };
+    ^NSComparisonResult(BRTransaction *tx1, BRTransaction *tx2) {
+        if (! tx1 || ! tx2) return NSOrderedSame;
+        if (tx1.blockHeight > tx2.blockHeight) return NSOrderedAscending;
+        if (tx1.blockHeight < tx2.blockHeight) return NSOrderedDescending;
+        if ([tx1.inputHashes containsObject:tx2.txHash]) return NSOrderedAscending;
+        if ([tx2.inputHashes containsObject:tx1.txHash]) return NSOrderedDescending;
+        
+        for (NSData *txHash in tx1.inputHashes) { // recursively compare inputs
+            if (weakCompareTx(self.allTx[txHash], tx2) == NSOrderedAscending) return NSOrderedAscending;
+        }
+        
+        for (NSData *txHash in tx2.inputHashes) {
+            if (weakCompareTx(tx1, self.allTx[txHash]) == NSOrderedDescending) return NSOrderedDescending;
+        }
+        
+        return NSOrderedSame;
+    };
     
     [self.transactions sortUsingComparator:compareTx];
 }
@@ -214,26 +214,26 @@ seed:(NSData *(^)())seed
     NSMutableOrderedSet *utxos = [NSMutableOrderedSet orderedSet];
     NSMutableSet *spentOutputs = [NSMutableSet set], *invalidTx = [NSMutableSet set];
     NSMutableArray *balanceHistory = [NSMutableArray array];
-
+    
     for (BRTransaction *tx in [self.transactions reverseObjectEnumerator]) {
         NSMutableSet *spent = [NSMutableSet set];
         uint32_t i = 0, n = 0;
-
+        
         for (NSData *hash in tx.inputHashes) {
             n = [tx.inputIndexes[i++] unsignedIntValue];
             [spent addObject:txOutput(hash, n)];
         }
-
+        
         // check if any inputs are invalid or already spent
         if (tx.blockHeight == TX_UNCONFIRMED &&
             ([spent intersectsSet:spentOutputs] || [[NSSet setWithArray:tx.inputHashes] intersectsSet:invalidTx])) {
             [invalidTx addObject:tx.txHash];
             continue;
         }
-
+        
         [spentOutputs unionSet:spent]; // add inputs to spent output set
         n = 0;
-
+        
         //TODO: don't add outputs below TX_MIN_OUTPUT_AMOUNT
         //TODO: don't add coin generation outputs < 100 blocks deep, or non-final lockTime > 1 block/10min in future
         //NOTE: balance/UTXOs will then need to be recalculated when last block changes
@@ -244,7 +244,7 @@ seed:(NSData *(^)())seed
             }
             n++;
         }
-
+        
         // transaction ordering is not guaranteed, so check the entire UTXO set against the entire spent output set
         [spent setSet:[utxos set]];
         [spent intersectSet:spentOutputs];
@@ -259,15 +259,15 @@ seed:(NSData *(^)())seed
         
         [balanceHistory insertObject:@(balance) atIndex:0];
     }
-
+    
     self.invalidTx = invalidTx;
     self.spentOutputs = spentOutputs;
     self.utxos = utxos;
     self.balanceHistory = balanceHistory;
-
+    
     if (balance != _balance) {
         _balance = balance;
-
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:BRWalletBalanceChangedNotification object:nil];
         });
@@ -320,9 +320,9 @@ seed:(NSData *(^)())seed
 - (BRTransaction *)transactionFor:(uint64_t)amount to:(NSString *)address
 {
     NSMutableData *script = [NSMutableData data];
-
+    
     [script appendScriptPubKeyForAddress:address];
-
+    
     return [self transactionForAmounts:@[@(amount)] toOutputScripts:@[script]];
 }
 
@@ -332,30 +332,30 @@ seed:(NSData *(^)())seed
     uint64_t amount = 0, balance = 0, standardFee = 0;
     BRTransaction *transaction = [BRTransaction new];
     NSUInteger i = 0;
-
+    
     for (NSData *script in scripts) {
         if (! script.length) return nil;
         [transaction addOutputScript:script amount:[amounts[i] unsignedLongLongValue]];
         amount += [amounts[i++] unsignedLongLongValue];
     }
-
+    
     //TODO: make sure transaction is less than TX_MAX_SIZE
     //TODO: use up all inputs for all used addresses to avoid leaving funds in addresses whose public key is revealed
     //TODO: avoid combining addresses in a single transaction when possible to reduce information leakage
     for (NSData *o in self.utxos) {
         BRTransaction *tx = self.allTx[[o hashAtOffset:0]];
         uint32_t n = [o UInt32AtOffset:CC_SHA256_DIGEST_LENGTH];
-
+        
         if (! tx) continue;
-
+        
         [transaction addInputHash:tx.txHash index:n script:tx.outputScripts[n]];
         balance += [tx.outputAmounts[n] unsignedLongLongValue];
-            
+        
         // assume we will be adding a change output (additional 34 bytes)
         //TODO: calculate the median of the lowest fee-per-kb that made it into the previous 144 blocks (24hrs)
         //NOTE: consider feedback effects if everyone uses the same algorithm to calculate fees, maybe add noise
-
-
+        
+        
         standardFee = transaction.standardFee;
         if (balance == amount + standardFee || balance >= amount + standardFee + TX_MIN_OUTPUT_AMOUNT) break;
     }
@@ -380,8 +380,8 @@ seed:(NSData *(^)())seed
         NSData *seed = self.seed();
         NSMutableArray *pkeys = [NSMutableArray array];
         NSMutableOrderedSet *externalIndexes = [NSMutableOrderedSet orderedSet],
-                            *internalIndexes = [NSMutableOrderedSet orderedSet];
-
+        *internalIndexes = [NSMutableOrderedSet orderedSet];
+        
         for (NSString *addr in transaction.inputAddresses) {
             [internalIndexes addObject:@([self.internalAddresses indexOfObject:addr])];
             [externalIndexes addObject:@([self.externalAddresses indexOfObject:addr])];
@@ -408,10 +408,10 @@ seed:(NSData *(^)())seed
     for (NSData *txHash in transaction.inputHashes) {
         BRTransaction *tx = self.allTx[txHash];
         uint32_t n = [transaction.inputIndexes[i++] unsignedIntValue];
-
+        
         if (n < tx.outputAddresses.count && [self containsAddress:tx.outputAddresses[n]]) return YES;
     }
-        
+    
     return NO;
 }
 
@@ -421,25 +421,25 @@ seed:(NSData *(^)())seed
     if (transaction.txHash == nil) return NO;
     if (self.allTx[transaction.txHash] != nil) return YES;
     if (! [self containsTransaction:transaction]) return NO;
-
+    
     //TODO: XXXX verify signatures when possible
-
+    
     self.allTx[transaction.txHash] = transaction;
     [self.transactions insertObject:transaction atIndex:0];
     [self.usedAddresses addObjectsFromArray:transaction.inputAddresses];
     [self.usedAddresses addObjectsFromArray:transaction.outputAddresses];
     [self updateBalance];
-
+    
     // when a wallet address is used in a transaction, generate a new address to replace it
     [self addressesWithGapLimit:SEQUENCE_GAP_LIMIT_EXTERNAL internal:NO];
     [self addressesWithGapLimit:SEQUENCE_GAP_LIMIT_INTERNAL internal:YES];
-
+    
     [self.moc performBlock:^{ // add the transaction to core data
         if ([BRTransactionEntity countObjectsMatching:@"txHash == %@", transaction.txHash] == 0) {
             [[BRTransactionEntity managedObject] setAttributesFromTx:transaction];
         }
     }];
-
+    
     return YES;
 }
 
@@ -448,20 +448,20 @@ seed:(NSData *(^)())seed
 {
     BRTransaction *transaction = self.allTx[txHash];
     NSMutableSet *hashes = [NSMutableSet set];
-
+    
     for (BRTransaction *tx in self.transactions) { // remove dependent transactions
         if (tx.blockHeight < transaction.blockHeight) break;
         if (! [txHash isEqual:tx.txHash] && [tx.inputHashes containsObject:txHash]) [hashes addObject:tx.txHash];
     }
-
+    
     for (NSData *hash in hashes) {
         [self removeTransaction:hash];
     }
-
+    
     [self.allTx removeObjectForKey:txHash];
     if (transaction) [self.transactions removeObject:transaction];
     [self updateBalance];
-
+    
     [self.moc performBlock:^{ // remove transaction from core data
         [BRTransactionEntity deleteObjects:[BRTransactionEntity objectsMatching:@"txHash == %@", txHash]];
     }];
@@ -478,16 +478,16 @@ seed:(NSData *(^)())seed
 {
     if (transaction.blockHeight != TX_UNCONFIRMED) return YES;
     if (self.allTx[transaction.txHash] != nil) return [self.invalidTx containsObject:transaction.txHash] ? NO : YES;
-
+    
     uint32_t i = 0;
-
+    
     for (NSData *hash in transaction.inputHashes) {
         BRTransaction *tx = self.allTx[hash];
         uint32_t n = [transaction.inputIndexes[i++] unsignedIntValue];
-
+        
         if ((tx && ! [self transactionIsValid:tx]) || [self.spentOutputs containsObject:txOutput(hash, n)]) return NO;
     }
-
+    
     return YES;
 }
 
@@ -495,39 +495,39 @@ seed:(NSData *(^)())seed
 - (BOOL)transactionIsPostdated:(BRTransaction *)transaction atBlockHeight:(uint32_t)blockHeight
 {
     if (transaction.blockHeight <= blockHeight + 1) return NO; // confirmed transactions are not pending
-
+    
     for (NSData *txHash in transaction.inputHashes) { // check if any inputs are known to be pending
         if ([self transactionIsPostdated:self.allTx[txHash] atBlockHeight:blockHeight]) return YES;
     }
-
+    
     if (transaction.lockTime <= blockHeight + 1) return NO;
-
+    
     if (transaction.lockTime >= TX_MAX_LOCK_HEIGHT &&
         transaction.lockTime < [NSDate timeIntervalSinceReferenceDate] + NSTimeIntervalSince1970 + 1*60) return NO;
-
+    
     for (NSNumber *sequence in transaction.inputSequences) { // lockTime is ignored if all sequence numbers are final
         if (sequence.unsignedIntValue < UINT32_MAX) return YES;
     }
-
+    
     return NO;
 }
 
 - (void)setBlockHeight:(int32_t)height forTxHashes:(NSArray *)txHashes
 {
     BOOL set = NO;
-
+    
     for (NSData *hash in txHashes) {
         BRTransaction *tx = self.allTx[hash];
-
+        
         if (! tx || tx.blockHeight == height) continue;
         tx.blockHeight = height;
         set = YES;
     }
-
+    
     if (set) {
         [self sortTransactions];
         [self updateBalance];
-
+        
         [self.moc performBlock:^{
             for (BRTransactionEntity *e in [BRTransactionEntity objectsMatching:@"txHash in %@", txHashes]) {
                 e.blockHeight = height;
@@ -541,13 +541,13 @@ seed:(NSData *(^)())seed
 {
     uint64_t amount = 0;
     NSUInteger n = 0;
-
+    
     //TODO: don't include outputs below TX_MIN_OUTPUT_AMOUNT
     for (NSString *address in transaction.outputAddresses) {
         if ([self containsAddress:address]) amount += [transaction.outputAmounts[n] unsignedLongLongValue];
         n++;
     }
-
+    
     return amount;
 }
 
@@ -556,16 +556,16 @@ seed:(NSData *(^)())seed
 {
     uint64_t amount = 0;
     NSUInteger i = 0;
-
+    
     for (NSData *hash in transaction.inputHashes) {
         BRTransaction *tx = self.allTx[hash];
         uint32_t n = [transaction.inputIndexes[i++] intValue];
-
+        
         if (n < tx.outputAddresses.count && [self containsAddress:tx.outputAddresses[n]]) {
             amount += [tx.outputAmounts[n] unsignedLongLongValue];
         }
     }
-
+    
     return amount;
 }
 
@@ -574,15 +574,15 @@ seed:(NSData *(^)())seed
 {
     uint64_t amount = 0;
     NSUInteger i = 0;
-
+    
     for (NSData *hash in transaction.inputHashes) {
         BRTransaction *tx = self.allTx[hash];
         uint32_t n = [transaction.inputIndexes[i++] intValue];
-
+        
         if (n >= tx.outputAmounts.count) return UINT64_MAX;
         amount += [tx.outputAmounts[n] unsignedLongLongValue];
     }
-
+    
     for (NSNumber *amt in transaction.outputAmounts) {
         amount -= amt.unsignedLongLongValue;
     }
@@ -595,11 +595,11 @@ seed:(NSData *(^)())seed
 {
     uint64_t sent = [self amountSentByTransaction:transaction];
     NSArray *addrs = (sent > 0) ? transaction.outputAddresses : transaction.inputAddresses;
-
+    
     for (NSString *address in addrs) {
         if (address != (id)[NSNull null] && ! [self containsAddress:address]) return address;
     }
-
+    
     return nil;
 }
 

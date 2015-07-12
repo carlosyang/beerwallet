@@ -82,8 +82,8 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication
 annotation:(id)annotation
 {
-    if (! [url.scheme isEqual:@"dogecoin"] && ! [url.scheme isEqual:@"dough"]) {
-        [[[UIAlertView alloc] initWithTitle:@"Not a dogecoin URL" message:url.absoluteString delegate:nil
+    if (! [url.scheme isEqual:@"defcoin"] && ! [url.scheme isEqual:@"defcoin"]) {
+        [[[UIAlertView alloc] initWithTitle:@"Not a defcoin URL" message:url.absoluteString delegate:nil
           cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         return NO;
     }
