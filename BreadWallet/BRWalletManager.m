@@ -60,7 +60,7 @@
 #define DEFAULT_CURRENCY_CODE   @"USD"
 
 #define UNSPENT_URL @"http://defcoin.assmeow.org/unspent/"
-#define TICKER_URL  @"https://www.beerwallet.org/ticker"
+#define TICKER_URL  @"http://www.beerwallet.org/ticker"
 
 static BOOL setKeychainData(NSData *data, NSString *key)
 {
@@ -612,7 +612,7 @@ completion:(void (^)(BRTransaction *tx, NSError *error))completion
             self.format.maximumFractionDigits > 4 ? 4 : self.format.maximumFractionDigits;
     }
 
-    NSString *r = [self.format stringFromNumber:@((float)amount/SATOSHIS)];
+    NSString *r = [self.format stringFromNumber:@((double)amount/SATOSHIS)];
 
     self.format.minimumFractionDigits = min;
 
