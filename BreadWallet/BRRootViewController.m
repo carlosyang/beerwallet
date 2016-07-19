@@ -38,7 +38,7 @@
 
 #define BALANCE_TIP NSLocalizedString(@"This is your defcoin balance. Defcoin is a currency. "\
                                        "The exchange rate changes with the market.", nil)
-#define BITS_TIP    NSLocalizedString(@"%@ is for 'Defcoin'.", nil)
+#define BITS_TIP    NSLocalizedString(@"%@ is for 'Defcoin Bits' (0.000001 DFC).", nil)
 
 #define BACKUP_DIALOG_TIME_KEY @"BACKUP_DIALOG_TIME"
 

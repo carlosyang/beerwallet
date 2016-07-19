@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37182B331D3ECA3600C3A8E0 /* ipad-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 37182B321D3ECA3600C3A8E0 /* ipad-icon.png */; };
 		374FDB721B4DDD0600F58A5B /* BRWallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 752E28CB19234C3600DB5A3C /* BRWallet.m */; };
 		374FDB751B4DDDB700F58A5B /* BRSendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 759FBB35193290F600AB4465 /* BRSendViewController.m */; };
 		374FDB761B4DDF1100F58A5B /* BRTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 752E28C919234C3600DB5A3C /* BRTransaction.m */; };
@@ -703,6 +704,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		37182B321D3ECA3600C3A8E0 /* ipad-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ipad-icon.png"; path = "images/ipad-icon.png"; sourceTree = SOURCE_ROOT; };
 		379DFB4D1B52FCDF004CB226 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../Settings.bundle; sourceTree = "<group>"; };
 		75242C831968876500CF40E7 /* BRPINViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRPINViewController.h; sourceTree = "<group>"; };
 		75242C841968876500CF40E7 /* BRPINViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BRPINViewController.m; sourceTree = "<group>"; };
@@ -2953,6 +2955,7 @@
 				75D5F3D0191EC270004AB296 /* BRAppDelegate.h */,
 				75D5F3D1191EC270004AB296 /* BRAppDelegate.m */,
 				75D5F3DF191EC270004AB296 /* Images.xcassets */,
+				37182B321D3ECA3600C3A8E0 /* ipad-icon.png */,
 				75D5F3DC191EC270004AB296 /* Main.storyboard */,
 				752E2898192349CE00DB5A3C /* BreadWallet.xcdatamodeld */,
 				752E28F419235B3000DB5A3C /* BIP39EnglishWords.plist */,
@@ -3209,6 +3212,7 @@
 				75A1E4D4193869C500D85BEE /* Localizable.strings in Resources */,
 				752E28F619235B3000DB5A3C /* BIP39EnglishWords.plist in Resources */,
 				75D5F3CC191EC270004AB296 /* InfoPlist.strings in Resources */,
+				37182B331D3ECA3600C3A8E0 /* ipad-icon.png in Resources */,
 				752E28F719235B3000DB5A3C /* FixedPeers.plist in Resources */,
 				75D5F3DE191EC270004AB296 /* Main.storyboard in Resources */,
 				379DFB4E1B52FCDF004CB226 /* Settings.bundle in Resources */,
@@ -4028,6 +4032,7 @@
 				INFOPLIST_FILE = "BreadWallet/BreadWallet-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = GCov_Build;
@@ -4226,6 +4231,7 @@
 				INFOPLIST_FILE = "BreadWallet/BreadWallet-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -4252,6 +4258,7 @@
 				INFOPLIST_FILE = "BreadWallet/BreadWallet-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

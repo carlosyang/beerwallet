@@ -170,7 +170,7 @@
 "enter current pin" = "enter current pin";
 
 /* No comment provided by engineer. */
-"enter pin" = "enter pin";
+"enter pin" = "enter BEERWALLET pin";
 
 /* No comment provided by engineer. */
 "error signing bitcoin transaction" = "error signing bitcoin transaction";
@@ -275,7 +275,7 @@
 "recieved" = "recieved";
 
 /* No comment provided by engineer. */
-"reenter pin" = "reenter pin";
+"reenter pin" = "reenter BEERWALLET pin";
 
 /* No comment provided by engineer. */
 "remove fee" = "remove fee";

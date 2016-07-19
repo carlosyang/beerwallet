@@ -39,7 +39,7 @@
 #import "NSManagedObject+Sugar.h"
 #import "Reachability.h"
 
-#define BTC         @"\xc3\x90"     // capital D with stroke (utf-8)
+#define BTC         @"\xc4\x91"     // lowercase D with stroke (utf-8)
 #define BITS        @"Koinu"
 #define NARROW_NBSP @"\xE2\x80\xAF" // narrow no-break space (utf-8)
 
@@ -149,7 +149,7 @@ static NSData *getKeychainData(NSString *key)
     self.format.currencySymbol = BTC NARROW_NBSP;
     self.format.internationalCurrencySymbol = self.format.currencySymbol;
     self.format.minimumFractionDigits = 0; // iOS 8 bug, minimumFractionDigits now has to be set after currencySymbol
-    self.format.maximumFractionDigits = 8;
+    self.format.maximumFractionDigits = 2;
 //    self.format.currencySymbol = BTC NARROW_NBSP;
 //    self.format.maximumFractionDigits = 8;
 
@@ -600,7 +600,8 @@ completion:(void (^)(BRTransaction *tx, NSError *error))completion
 
 - (int64_t)amountForString:(NSString *)string
 {
-    return ([[self.format numberFromString:string] doubleValue] + DBL_EPSILON)*SATOSHIS;
+    //return ([[self.format numberFromString:string] doubleValue] + DBL_EPSILON)*SATOSHIS; // Full DFC
+    return ([[self.format numberFromString:string] doubleValue] + DBL_EPSILON) * pow(10.0, self.format.maximumFractionDigits); // BITS
 }
 
 - (NSString *)stringForAmount:(int64_t)amount
@@ -612,7 +613,8 @@ completion:(void (^)(BRTransaction *tx, NSError *error))completion
             self.format.maximumFractionDigits > 4 ? 4 : self.format.maximumFractionDigits;
     }
 
-    NSString *r = [self.format stringFromNumber:@((double)amount/SATOSHIS)];
+    //NSString *r = [self.format stringFromNumber:@((double)amount/SATOSHIS)]; // Full DFC
+    NSString *r = [self.format stringFromNumber:@(amount/pow(10.0, self.format.maximumFractionDigits))]; // BITS
 
     self.format.minimumFractionDigits = min;
 
@@ -632,9 +634,9 @@ completion:(void (^)(BRTransaction *tx, NSError *error))completion
     if (local == 0) return 0;
 
     int64_t min = llabs(local)*SATOSHIS/
-                  (double)(self.localCurrencyPrice*pow(10.0, self.localFormat.maximumFractionDigits)) + 1,
+                  (int64_t)(self.localCurrencyPrice*pow(10.0, self.localFormat.maximumFractionDigits)) + 1,
             max = (llabs(local) + 1)*SATOSHIS/
-                  (double)(self.localCurrencyPrice*pow(10.0, self.localFormat.maximumFractionDigits)) - 1,
+                  (int64_t)(self.localCurrencyPrice*pow(10.0, self.localFormat.maximumFractionDigits)) - 1,
             amount = (min + max)/2, p = 10;
 
     if (amount >= MAX_MONEY) return (local < 0) ? -MAX_MONEY : MAX_MONEY;

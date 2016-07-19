@@ -26,7 +26,7 @@
 #import <Foundation/Foundation.h>
 
 #define BITCOIN_PUBKEY_ADDRESS      30
-#define BITCOIN_SCRIPT_ADDRESS      22
+#define BITCOIN_SCRIPT_ADDRESS      5  // DEFCOIN: Changed from 22 to 5
 #define BITCOIN_PRIVKEY             158
 
 #define BITCOIN_PUBKEY_ADDRESS_TEST 113
