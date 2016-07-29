@@ -59,7 +59,7 @@
 #define DEFAULT_CURRENCY_PRICE  0.01
 #define DEFAULT_CURRENCY_CODE   @"USD"
 
-#define UNSPENT_URL @"http://defcoin.assmeow.org/unspent/"
+#define UNSPENT_URL @"http://explorer.beerwallet.org/unspent/"
 #define TICKER_URL  @"http://www.beerwallet.org/ticker"
 
 static BOOL setKeychainData(NSData *data, NSString *key)

@@ -123,12 +123,13 @@ static const struct { uint32_t height; char *hash; uint32_t timestamp; uint32_t 
     { 460800, "a26f4709019171371f5dead6d4988fca6bcd05106fadc0c27bd3ec2715cbf555", 1460776514, 0x1d034125u },
     { 475200, "e91e1cb5c465338f64ae924125745111d188fa63ba7ea82d78da96541d8d5f19", 1462523130, 0x1d0385ebu },
     { 504000, "7b092f6862a62bfdcf3d234542d9af277b85958c4bd3a72873e23af0d354616e", 1466021413, 0x1d0561a4u },
-    { 518400, "8b9bc518f88f54f1ca749371503251ab4771fc6d12cd977186daffb1aca43ccb", 1467744164, 0x1d04f50du }
+    { 518400, "8b9bc518f88f54f1ca749371503251ab4771fc6d12cd977186daffb1aca43ccb", 1467744164, 0x1d04f50du },
+    { 532800, "19a516baf53daa2fffc19aa665bb35a2e1edfe1e13375ee7299ced81eb49f0c7", 1469411919, 0x1d015f2bu }
 };
 
 static const char *dns_seeds[] = {
-    "seed.defcoin.org",
-    "seed2.defcoin.org"
+    "seed.beerwallet.org",
+    "seed2.beerwallet.org"
 };
 
 #endif
@@ -505,7 +506,7 @@ static const char *dns_seeds[] = {
     if (! [transaction isSigned]) {
         if (completion) {
             completion([NSError errorWithDomain:@"BeerWallet" code:401 userInfo:@{NSLocalizedDescriptionKey:
-                        NSLocalizedString(@"defcoin transaction not signed", nil)}]);
+                        NSLocalizedString(@"dogecoin transaction not signed", nil)}]);
         }
         return;
     }
@@ -513,7 +514,7 @@ static const char *dns_seeds[] = {
     if (! self.connected) {
         if (completion) {
             completion([NSError errorWithDomain:@"BeerWallet" code:-1009 userInfo:@{NSLocalizedDescriptionKey:
-                        NSLocalizedString(@"not connected to the defcoin network", nil)}]);
+                        NSLocalizedString(@"not connected to the dogecoin network", nil)}]);
         }
         return;
     }

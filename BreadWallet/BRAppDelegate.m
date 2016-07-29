@@ -83,7 +83,7 @@
 annotation:(id)annotation
 {
     if (! [url.scheme isEqual:@"defcoin"] && ! [url.scheme isEqual:@"defcoin"]) {
-        [[[UIAlertView alloc] initWithTitle:@"Not a defcoin URL" message:url.absoluteString delegate:nil
+        [[[UIAlertView alloc] initWithTitle:@"Not a dogecoin URL" message:url.absoluteString delegate:nil
           cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         return NO;
     }
